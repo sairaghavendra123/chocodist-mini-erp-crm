@@ -1,0 +1,120 @@
+// Prisma Schema for Mini ERP + CRM Operations Portal
+// Default provider is sqlite for zero-config instant local execution.
+// For PostgreSQL (Supabase / Neon deployment), change provider to "postgresql"
+// and update DATABASE_URL in .env to your PostgreSQL connection string.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String          @id @default(uuid())
+  name           String
+  email          String          @unique
+  password       String
+  role           String          // ADMIN, SALES, WAREHOUSE, ACCOUNTS
+  mobile         String?
+  employeeId     String?
+  department     String?
+  jobTitle       String?
+  status         String          @default("ACTIVE")
+  lastLogin      DateTime?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  customers      Customer[]      @relation("CreatedCustomers")
+  stockMovements StockMovement[] @relation("CreatedStockMovements")
+  challans       Challan[]       @relation("CreatedChallans")
+  notifications  Notification[]
+}
+
+model Notification {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title      String
+  message    String
+  type       String   // LOW_STOCK, OUT_OF_STOCK, NEW_CUSTOMER, NEW_CHALLAN, CHALLAN_CONFIRMED, STOCK_RECEIVED, STOCK_ADJUSTMENT
+  entityId   String?
+  entityType String?  // CUSTOMER, PRODUCT, CHALLAN, STOCK_MOVEMENT
+  isRead     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model Customer {
+  id           String    @id @default(uuid())
+  name         String
+  mobile       String
+  email        String
+  businessName String
+  gstNumber    String?
+  customerType String    // RETAIL, WHOLESALE, DISTRIBUTOR
+  address      String
+  status       String    // LEAD, ACTIVE, INACTIVE
+  followUpDate String?
+  notes        String?
+  createdById  String
+  createdBy    User      @relation("CreatedCustomers", fields: [createdById], references: [id])
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  challans     Challan[]
+}
+
+model Product {
+  id                String          @id @default(uuid())
+  name              String
+  sku               String          @unique
+  category          String
+  unitPrice         Float
+  currentStock      Int
+  minStockAlert     Int
+  warehouseLocation String
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  stockMovements    StockMovement[]
+  challanItems      ChallanItem[]
+}
+
+model StockMovement {
+  id             String   @id @default(uuid())
+  productId      String
+  product        Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantityChanged Int
+  movementType   String   // IN, OUT
+  reason         String
+  createdById    String
+  createdBy      User     @relation("CreatedStockMovements", fields: [createdById], references: [id])
+  createdAt      DateTime @default(now())
+}
+
+model Challan {
+  id            String        @id @default(uuid())
+  challanNumber String        @unique
+  customerId    String
+  customer      Customer      @relation(fields: [customerId], references: [id])
+  totalQuantity Int           @default(0)
+  totalAmount   Float         @default(0.0)
+  status        String        // DRAFT, CONFIRMED, CANCELLED
+  createdById   String
+  createdBy     User          @relation("CreatedChallans", fields: [createdById], references: [id])
+  items         ChallanItem[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model ChallanItem {
+  id          String   @id @default(uuid())
+  challanId   String
+  challan     Challan  @relation(fields: [challanId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id])
+  productName String   // Product snapshot data
+  sku         String   // Product snapshot data
+  unitPrice   Float    // Product snapshot data
+  quantity    Int
+  totalPrice  Float
+}

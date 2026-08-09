@@ -19,12 +19,32 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
   const { user, logout, canAccess } = useAuth();
 
-  const navItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, module: 'dashboard' as const },
-    { id: 'customers', label: 'Customers', icon: Users, module: 'customers' as const },
-    { id: 'products', label: 'Products', icon: Package, module: 'products' as const },
-    { id: 'inventory', label: 'Inventory', icon: Boxes, module: 'inventory' as const },
-    { id: 'challans', label: 'Sales Challans', icon: FileSpreadsheet, module: 'challans' as const },
+  const navSections = [
+    {
+      title: 'OVERVIEW',
+      items: [
+        { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, module: 'dashboard' as const },
+      ],
+    },
+    {
+      title: 'CRM',
+      items: [
+        { id: 'customers', label: 'Customers', icon: Users, module: 'customers' as const },
+      ],
+    },
+    {
+      title: 'INVENTORY',
+      items: [
+        { id: 'products', label: 'Products', icon: Package, module: 'products' as const },
+        { id: 'inventory', label: 'Stock Movements', icon: Boxes, module: 'inventory' as const },
+      ],
+    },
+    {
+      title: 'SALES',
+      items: [
+        { id: 'challans', label: 'Sales Challans', icon: FileSpreadsheet, module: 'challans' as const },
+      ],
+    },
   ];
 
   return (
@@ -35,24 +55,35 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
         </div>
         <div>
           <div className="sidebar-title">ChocoDist</div>
-          <div className="sidebar-subtitle">Chocolate Wholesale & Distribution</div>
+          <div className="sidebar-subtitle">Mini ERP-CRM Platform</div>
         </div>
       </div>
 
       <nav className="sidebar-nav">
-        {navItems.map((item) => {
-          if (!canAccess(item.module)) return null;
-          const Icon = item.icon;
-          const isActive = activeTab === item.id;
+        {navSections.map((section, idx) => {
+          const visibleItems = section.items.filter((item) => canAccess(item.module));
+          if (visibleItems.length === 0) return null;
+
           return (
-            <button
-              key={item.id}
-              className={`sidebar-item ${isActive ? 'active' : ''}`}
-              onClick={() => setActiveTab(item.id)}
-            >
-              <Icon size={18} />
-              <span>{item.label}</span>
-            </button>
+            <div key={idx} style={{ marginBottom: '1.25rem' }}>
+              <div className="sidebar-section-label">{section.title}</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                {visibleItems.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = activeTab === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      className={`sidebar-item ${isActive ? 'active' : ''}`}
+                      onClick={() => setActiveTab(item.id)}
+                    >
+                      <Icon size={18} />
+                      <span>{item.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           );
         })}
       </nav>
@@ -62,10 +93,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', overflow: 'hidden' }}>
             <div
               style={{
-                width: 32,
-                height: 32,
+                width: 34,
+                height: 34,
                 borderRadius: '50%',
-                background: '#5c3a21',
+                background: 'linear-gradient(135deg, #5c3a21 0%, #3d2314 100%)',
                 color: '#fff',
                 fontWeight: 700,
                 fontSize: '0.8rem',
@@ -73,6 +104,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexShrink: 0,
+                boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
               }}
             >
               {user?.name ? user.name.charAt(0).toUpperCase() : <UserIcon size={16} />}
@@ -81,21 +113,22 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
               <div
                 style={{
                   fontSize: '0.825rem',
-                  fontWeight: 600,
+                  fontWeight: 700,
                   color: '#ffffff',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                 }}
               >
-                {user?.name}
+                {user?.name || 'Authenticated User'}
               </div>
               <div
                 style={{
                   fontSize: '0.65rem',
-                  color: '#a89f91',
-                  fontWeight: 700,
+                  color: '#d48b45',
+                  fontWeight: 800,
                   textTransform: 'uppercase',
+                  letterSpacing: '0.04em',
                 }}
               >
                 {user?.role}
@@ -105,18 +138,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
           <button
             onClick={logout}
             style={{
-              background: 'none',
-              border: 'none',
+              background: 'rgba(239, 68, 68, 0.1)',
+              border: '1px solid rgba(239, 68, 68, 0.2)',
               color: '#f87171',
               cursor: 'pointer',
-              padding: '0.3rem',
-              borderRadius: '4px',
+              padding: '0.35rem',
+              borderRadius: '6px',
               display: 'flex',
               alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.15s ease',
             }}
-            title="Log Out"
+            title="Sign Out (Logout)"
           >
-            <LogOut size={16} />
+            <LogOut size={15} />
           </button>
         </div>
       </div>

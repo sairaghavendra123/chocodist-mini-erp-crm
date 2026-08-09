@@ -1,18 +1,18 @@
-/* ChocoDist - Commercial Chocolate Wholesale & Distribution SaaS Platform Design System */
+/* ChocoDist - Enterprise Chocolate Wholesale & Distribution Mini ERP-CRM SaaS Platform Design System */
 :root {
-  --primary: #5c3a21;
-  --primary-hover: #432916;
+  --primary: #3d2314;
+  --primary-hover: #2a1810;
   --primary-light: #f7f3f0;
-  --accent-amber: #d97706;
-  --accent-amber-light: #fffbeb;
+  --accent-amber: #d48b45;
+  --accent-amber-light: #fffbf5;
   --accent-amber-border: #fcd34d;
-  --bg-main: #faf8f5;
+  --bg-main: #f9f8f6;
   --bg-surface: #ffffff;
-  --border-color: #e2e8f0;
-  --border-subtle: #f1f5f9;
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --text-light: #94a3b8;
+  --border-color: #e6e1dc;
+  --border-subtle: #f2efeb;
+  --text-main: #1a110b;
+  --text-muted: #685950;
+  --text-light: #9a8b80;
   --success: #16a34a;
   --success-bg: #f0fdf4;
   --success-border: #bbf7d0;
@@ -21,16 +21,16 @@
   --danger: #dc2626;
   --danger-bg: #fef2f2;
   --danger-border: #fca5a5;
-  --sidebar-bg: #1e1b18;
+  --sidebar-bg: #1a110b;
   --sidebar-text: #a89f91;
   --sidebar-hover-bg: rgba(255, 255, 255, 0.07);
-  --sidebar-active-bg: #5c3a21;
+  --sidebar-active-bg: #3d2314;
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 14px;
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 3px 0 rgba(30, 18, 11, 0.03);
+  --shadow-md: 0 4px 6px -1px rgba(30, 18, 11, 0.05), 0 2px 4px -2px rgba(30, 18, 11, 0.03);
+  --shadow-lg: 0 10px 25px -5px rgba(30, 18, 11, 0.08), 0 8px 10px -6px rgba(30, 18, 11, 0.04);
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -78,7 +78,7 @@ body {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .sidebar-header {
@@ -90,9 +90,9 @@ body {
 }
 
 .sidebar-logo-icon {
-  width: 36px;
-  height: 36px;
-  background: linear-gradient(135deg, #5c3a21 0%, #3a2212 100%);
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, #3d2314 0%, #2a1810 100%);
   color: #f7f3f0;
   border-radius: var(--radius-sm);
   display: flex;
@@ -103,7 +103,7 @@ body {
 }
 
 .sidebar-title {
-  font-weight: 700;
+  font-weight: 800;
   font-size: 1.15rem;
   color: #ffffff;
   letter-spacing: -0.01em;
@@ -119,8 +119,17 @@ body {
   padding: 1.25rem 0.75rem;
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
   flex: 1;
+  overflow-y: auto;
+}
+
+.sidebar-section-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #8c7d73;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0 0.75rem 0.35rem 0.75rem;
 }
 
 .sidebar-item {
@@ -128,11 +137,11 @@ body {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.75rem 1rem;
+  padding: 0.7rem 0.85rem;
   color: var(--sidebar-text);
   text-decoration: none;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   border-radius: var(--radius-sm);
   transition: var(--transition-fast);
   cursor: pointer;
@@ -150,7 +159,7 @@ body {
 .sidebar-item.active {
   background-color: var(--sidebar-active-bg);
   color: #ffffff;
-  font-weight: 600;
+  font-weight: 700;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -168,7 +177,7 @@ body {
 .sidebar-footer {
   padding: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .sidebar-user-card {
@@ -199,9 +208,10 @@ body {
 
 .topbar-title {
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text-main);
   line-height: 1.2;
+  letter-spacing: -0.01em;
 }
 
 .topbar-subtitle {
@@ -257,14 +267,14 @@ body {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary) 0%, #432916 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, #2a1810 100%);
   color: #ffffff;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.9rem;
-  border: 1px solid rgba(92, 58, 33, 0.2);
+  border: 1px solid rgba(61, 35, 20, 0.2);
 }
 
 .user-info {
@@ -274,7 +284,7 @@ body {
 
 .user-name {
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-main);
   line-height: 1.2;
 }
@@ -282,15 +292,15 @@ body {
 .user-role-badge {
   display: inline-block;
   font-size: 0.65rem;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
-  padding: 0.1rem 0.5rem;
+  padding: 0.1rem 0.55rem;
   border-radius: 9999px;
   background: var(--primary-light);
   color: var(--primary);
   width: fit-content;
   border: 1px solid #e7ded7;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
 }
 
 /* Page Greeting Banner */
@@ -368,12 +378,12 @@ body {
 .btn-primary {
   background-color: var(--primary);
   color: white;
-  box-shadow: 0 1px 2px rgba(92, 58, 33, 0.2);
+  box-shadow: 0 1px 2px rgba(61, 35, 20, 0.2);
 }
 
 .btn-primary:hover {
   background-color: var(--primary-hover);
-  box-shadow: 0 2px 4px rgba(92, 58, 33, 0.3);
+  box-shadow: 0 2px 4px rgba(61, 35, 20, 0.3);
 }
 
 .btn-secondary {
@@ -532,15 +542,15 @@ body {
 }
 
 .custom-table th {
-  background-color: #f8fafc;
+  background-color: #f6f3f0;
   padding: 0.85rem 1.25rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-muted);
   border-bottom: 1px solid var(--border-color);
   white-space: nowrap;
-  font-size: 0.8rem;
+  font-size: 0.775rem;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
 }
 
 .custom-table td {
@@ -566,7 +576,7 @@ body {
   padding: 0.2rem 0.65rem;
   border-radius: 9999px;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: capitalize;
   line-height: 1.2;
 }
@@ -634,7 +644,7 @@ body {
 
 .search-input:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(92, 58, 33, 0.12);
+  box-shadow: 0 0 0 3px rgba(61, 35, 20, 0.12);
 }
 
 .select-input {
@@ -768,7 +778,7 @@ body {
 
 .form-input:focus, .form-textarea:focus, .form-select:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(92, 58, 33, 0.12);
+  box-shadow: 0 0 0 3px rgba(61, 35, 20, 0.12);
 }
 
 .form-textarea {
@@ -1172,7 +1182,7 @@ body {
   .sidebar {
     width: 70px;
   }
-  .sidebar-title, .sidebar-subtitle, .sidebar-item span, .sidebar-user-card div {
+  .sidebar-title, .sidebar-subtitle, .sidebar-section-label, .sidebar-item span, .sidebar-user-card div {
     display: none;
   }
   .sidebar-header {

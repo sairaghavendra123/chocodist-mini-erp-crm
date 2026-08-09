@@ -155,7 +155,7 @@ mini-erp-crm/
 PORT=5001
 NODE_ENV=development
 DATABASE_URL="postgresql://neondb_owner:<password>@ep-misty-bread-zarwnmgp-pooler.c-2.eu-west-2.aws.neon.tech/neondb?sslmode=require"
-JWT_SECRET="mini_erp_crm_super_secret_jwt_key_2026"
+JWT_SECRET="<your-secure-jwt-secret>"
 FRONTEND_URL="https://chocodist-mini-erp-crm.vercel.app"
 ```
 

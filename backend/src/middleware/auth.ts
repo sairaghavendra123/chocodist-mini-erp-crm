@@ -2,8 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { JwtPayloadUser } from '../types/express';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'mini_erp_crm_super_secret_jwt_key_2026';
-
 export const authenticateToken = (req: Request, res: Response, next: NextFunction): void => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -16,8 +14,17 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
     return;
   }
 
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    res.status(500).json({
+      success: false,
+      message: 'Server security configuration error. Authorization service unavailable.',
+    });
+    return;
+  }
+
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as JwtPayloadUser;
+    const decoded = jwt.verify(token, jwtSecret) as JwtPayloadUser;
     req.user = decoded;
     next();
   } catch (err) {

@@ -1,16 +1,10 @@
-const rawEnvUrl = (import.meta as any).env?.VITE_API_URL || (import.meta as any).env?.VITE_API_BASE_URL || '';
-
-// If rawEnvUrl references the inactive backend service, route to the active working backend
-let cleanEnvUrl = rawEnvUrl;
-if (cleanEnvUrl.includes('chocodist-backend.onrender.com')) {
-  cleanEnvUrl = 'https://chocodist-mini-erp-crm.onrender.com/api';
-}
+const envUrl = (import.meta as any).env?.VITE_API_URL || (import.meta as any).env?.VITE_API_BASE_URL || '';
 
 const isLocal =
   typeof window !== 'undefined' &&
   (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
 
-const API_BASE_URL = cleanEnvUrl || (isLocal ? '/api' : 'https://chocodist-mini-erp-crm.onrender.com/api');
+const API_BASE_URL = envUrl || (isLocal ? '/api' : 'https://chocodist-backend.onrender.com/api');
 
 export interface ApiResponse<T = any> {
   success: boolean;

@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://chocodist-mini-erp-crm.onrender.com/api/:path*"
+      "destination": "https://chocodist-backend.onrender.com/api/:path*"
     },
     {
       "source": "/(.*)",

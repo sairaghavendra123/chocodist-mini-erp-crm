@@ -15,20 +15,22 @@ dotenv.config();
 const app: Express = express();
 const PORT = process.env.PORT || 5001;
 
-// CORS configuration
+// Strict Production & Development CORS Configuration
 const allowedOrigins = [
   'http://localhost:5173',
   'http://127.0.0.1:5173',
+  'https://chocodist-mini-erp-crm.vercel.app',
   process.env.FRONTEND_URL,
 ].filter(Boolean) as string[];
 
 app.use(
   cors({
     origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, Postman), allowed origins, or local non-production
       if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
         callback(null, true);
       } else {
-        callback(null, true);
+        callback(new Error(`CORS Policy Violation: Origin '${origin}' is not allowed.`));
       }
     },
     credentials: true,

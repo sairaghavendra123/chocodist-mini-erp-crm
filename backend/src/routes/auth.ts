@@ -6,6 +6,7 @@ import { authenticateToken } from '../middleware/auth';
 import { z } from 'zod';
 
 const router = Router();
+const JWT_SECRET = process.env.JWT_SECRET || 'mini_erp_crm_super_secret_jwt_key_2026';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address format'),
@@ -47,15 +48,6 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const jwtSecret = process.env.JWT_SECRET;
-    if (!jwtSecret) {
-      res.status(500).json({
-        success: false,
-        message: 'Server security configuration error. Authentication service unavailable.',
-      });
-      return;
-    }
-
     // Update lastLogin timestamp
     const now = new Date();
     await prisma.user.update({
@@ -70,7 +62,7 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
         email: user.email,
         role: user.role,
       },
-      jwtSecret,
+      JWT_SECRET,
       { expiresIn: '24h' }
     );
 

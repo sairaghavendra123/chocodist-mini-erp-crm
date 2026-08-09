@@ -15,7 +15,7 @@ dotenv.config();
 const app: Express = express();
 const PORT = process.env.PORT || 5001;
 
-// Strict Production & Development CORS Configuration
+// Flexible CORS Configuration
 const allowedOrigins = [
   'http://localhost:5173',
   'http://127.0.0.1:5173',
@@ -26,11 +26,10 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, Postman), allowed origins, or local non-production
-      if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
+      if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production' || (origin && origin.endsWith('.vercel.app'))) {
         callback(null, true);
       } else {
-        callback(new Error(`CORS Policy Violation: Origin '${origin}' is not allowed.`));
+        callback(null, true);
       }
     },
     credentials: true,
